@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon espacer!{% endblock %}
+
+{% block body %}
+    <div class="col-md-12">
+        <h1>Bienvenue dans votre espace {{ user.email }}</h1>
+        <h2>Vos réservations : </h2>
+        <ol>
+
+        </ol>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Films</th>
+            <th scope="col">Date</th>
+            <th scope="col">Heure</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for session in user.sessions %}
+            <tr>
+                <th scope="row">{{ loop.index }}</th>
+                <td>{{ session.film.name }}</td>
+                <td>{{ session.date.date |  date("d/m/Y") }}</td>
+                <td>{{ session.date.date | date('H:i') }}</td>
+                <td>
+                    <a href="{{ path('user_remove_session', {id: session.id}) }}">
+                        <i class="far fa-window-close"></i>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

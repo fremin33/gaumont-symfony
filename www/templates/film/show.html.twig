@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% block title %}Réserver votre séance{% endblock %}
+
+{% block body %}
+    <div class="col-xs-12 col-md-4">
+        <img class="card-img-top img-responsive"
+             src="{{ film.poster }}" alt="Deer in nature">
+        <div class="card-block">
+            <h4 class="card-title">{{ film.name }}</h4>
+            <h6 class="text-muted">Sortie: {{ film.releaseDate.date | date("d/m/Y") }} | Durée: {{ film.duration }}
+                min</h6>
+            <p class="text-muted">Prix: {{ film.price }}€</p>
+            <p class="card-text">{{ film.description }}</p>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-8">
+        <h1>Choisir votre horraire pour la séances : </h1>
+        {% for sessions in sessionsFormat %}
+            {% for session in sessions %}
+                {% if loop.first %}
+                    <h5>{{ session.date.date | date('d/m/y') }} </h5>
+                {% endif %}
+                <a href="{{ path('show_session', {id: session.id}) }}">
+                    <button type="button" class="btn btn-outline-dark">
+                        {{ session.date.date | date('H:i') }}
+                    </button>
+                </a>
+            {% endfor %}
+        {% endfor %}
+    </div>
+{% endblock %}

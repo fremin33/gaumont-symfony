@@ -1,0 +1,15 @@
+easy_admin:
+  site_name: 'Gaumont'
+  design:
+      brand_color: '#1ABC9C'
+  entities:
+    Film:
+      class: App\Entity\Film
+    Session:
+      class: App\Entity\Session
+    Room:
+      class: App\Entity\Room
+    User:
+      class: App\Entity\User
+framework:
+  translator: { fallbacks: [ "en" ] }

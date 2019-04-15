@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Summary Booking!{% endblock %}
+
+{% block body %}
+    <div class="col-md-12">
+        <h1>Récapitulatif de votre commande</h1>
+        <form action="{{ path('validate_booking', {id: session.id}) }}" method="POST">
+            <div class="row">
+                <div class="col-md-2">
+                    Film:
+                </div>
+                <div class="col-md-6 ">
+                    <span class="summary_input"> {{ session.film }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    Email:
+                </div>
+                <div class="col-md-6 ">
+                    <span class="summary_input"> {{ app.user.email }}</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2">
+                    Places réservées:
+                </div>
+                <div class="col-md-6">
+                    <input type="text" name="nb_place_reserved" value="{{ nbPlaceReserved }}" class="summary_input">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    Prix :
+                </div>
+                <div class="col-md-6">
+                    <span class="summary_input">{{ session.film.price * nbPlaceReserved }}€</span>
+
+                </div>
+            </div>
+            <a href="{{ path('validate_booking', {id: session.id}) }}">
+                <div class="btn btn-outline-danger mt-3">Annuler ma réservation</div>
+            </a>
+            <input type="submit" value="Valider ma réservation" class="btn btn-outline-dark mt-3">
+        </form>
+    </div>
+{% endblock %}

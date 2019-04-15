@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cinéma Gaumont{% endblock %}
+
+{% block body %}
+            <div class="col-md-12 text-right mb-5">
+                <form action="{{ path('films') }}" method="get">
+                    <label for="site-search">Recherche un film:</label>
+                    <input type="search" id="search" name="film_name"
+                           aria-label="Search through site content">
+                    <button>Search</button>
+                </form>
+            </div>
+            {% for film in films %}
+                <div class="col-xs-12 col-md-4">
+                    <img class="card-img-top img-responsive"
+                         src="{{ film.poster }}" alt="Deer in nature">
+                    <div class="card-block">
+                        <h4 class="card-title">{{ film.name }}</h4>
+                        <h6 class="text-muted">Sortie: {{ film.releaseDate.date | date("d/m/Y") }} |
+                            Durée: {{ film.duration }} min</h6>
+                        <p class="card-text">{{ film.description }}</p>
+                        <p class="text-center">
+                            <a href="{{ path('film_description', {'id': film.id}) }}" class="btn btn-primary">
+                                Réserver une séance
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
+{% endblock %}
