@@ -8,6 +8,9 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
+###> PhpStorm Folder ###
+.idea/
+###<  PhpStorm Folder ###
 ###> symfony/phpunit-bridge ###
 .phpunit
 /phpunit.xml
