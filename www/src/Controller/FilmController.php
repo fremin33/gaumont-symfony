@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class FilmController extends AbstractController
 {
     /**
-     * @Route("/", name="films")
+     * @Route("/", name="film_index")
      * @param FilmService $filmService
      * @return Response
      */
@@ -27,7 +27,7 @@ class FilmController extends AbstractController
     }
 
     /**
-     * @Route("/film/{id}", name="film_description")
+     * @Route("/film/{id}", name="film_show")
      * @param $id
      * @param FilmService $filmService
      * @return Response

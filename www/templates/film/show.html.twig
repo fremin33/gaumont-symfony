@@ -20,7 +20,7 @@
                 {% if loop.first %}
                     <h5>{{ session.date.date | date('d/m/y') }} </h5>
                 {% endif %}
-                <a href="{{ path('show_session', {id: session.id}) }}">
+                <a href="{{ path('session_show', {id: session.id, idFilm: film.id}) }}">
                     <button type="button" class="btn btn-outline-dark">
                         {{ session.date.date | date('H:i') }}
                     </button>

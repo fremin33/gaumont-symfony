@@ -5,7 +5,7 @@
 {% block body %}
     <div class="col-md-12">
         <h1>Récapitulatif de votre commande</h1>
-        <form action="{{ path('validate_booking', {id: session.id}) }}" method="POST">
+        <form action="{{ path('booking_validate', {idSession: session.id, idFilm: session.film.id}) }}" method="POST">
             <div class="row">
                 <div class="col-md-2">
                     Film:
@@ -40,7 +40,7 @@
 
                 </div>
             </div>
-            <a href="{{ path('validate_booking', {id: session.id}) }}">
+            <a href="{{ path('booking_validate', {idSession: session.id, idFilm: session.film.id}) }}">
                 <div class="btn btn-outline-danger mt-3">Annuler ma réservation</div>
             </a>
             <input type="submit" value="Valider ma réservation" class="btn btn-outline-dark mt-3">

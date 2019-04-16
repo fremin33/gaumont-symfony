@@ -40,19 +40,6 @@ class Session
      */
     private $room;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="sessions")
-     */
-    private $users;
-
-    /**
-     * Session constructor.
-     */
-    public function __construct()
-    {
-        $this->users = new ArrayCollection();
-    }
-
 
     /**
      * @return int|null
@@ -134,42 +121,6 @@ class Session
     public function setRoom(?Room $room): self
     {
         $this->room = $room;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    /**
-     * @param User $user
-     * @return Session
-     */
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->addSession($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param User $user
-     * @return Session
-     */
-    public function removeUser(User $user): self
-    {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
-            $user->removeSession($this);
-        }
 
         return $this;
     }

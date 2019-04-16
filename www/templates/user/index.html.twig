@@ -17,18 +17,22 @@
             <th scope="col">Films</th>
             <th scope="col">Date</th>
             <th scope="col">Heure</th>
+            <th scope="col">Places</th>
+            <th scope="col">Prix</th>
             <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
-        {% for session in user.sessions %}
+        {% for booking in user.bookings %}
             <tr>
                 <th scope="row">{{ loop.index }}</th>
-                <td>{{ session.film.name }}</td>
-                <td>{{ session.date.date |  date("d/m/Y") }}</td>
-                <td>{{ session.date.date | date('H:i') }}</td>
+                <td>{{ booking.session.film.name }}</td>
+                <td>{{ booking.session.date.date |  date("d/m/Y") }}</td>
+                <td>{{ booking.session.date.date | date('H:i') }}</td>
+                <td>{{ booking.nbPlaceReserved }}</td>
+                <td>{{ booking.nbPlaceReserved * booking.session.film.price }}€</td>
                 <td>
-                    <a href="{{ path('user_remove_session', {id: session.id}) }}">
+                    <a href="{{ path('booking_remove', {id: booking.id}) }}">
                         <i class="far fa-window-close"></i>
                     </a>
                 </td>

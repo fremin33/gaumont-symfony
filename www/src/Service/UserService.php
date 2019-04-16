@@ -3,13 +3,12 @@
 namespace App\Service;
 
 use App\Entity\User;
-use App\Repository\SessionRepository;
+use App\Repository\BookingRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class UserService
@@ -18,17 +17,13 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class UserService
 {
     /**
-     * @var RequestStack
-     */
-    private $request;
-    /**
      * @var User
      */
     private $user;
     /**
-     * @var SessionRepository
+     * @var BookingRepository
      */
-    private $sessionRepository;
+    private $bookingRepository;
     /**
      * @var EntityManager
      */
@@ -36,17 +31,15 @@ class UserService
 
     /**
      * SessionService constructor.
-     * @param SessionRepository $sessionRepository
+     * @param BookingRepository $bookingRepository
      * @param Security $security
      * @param EntityManagerInterface $manager
-     * @param RequestStack $request
      */
-    public function __construct(SessionRepository $sessionRepository, Security $security, EntityManagerInterface $manager, RequestStack $request)
+    public function __construct(BookingRepository $bookingRepository, Security $security, EntityManagerInterface $manager)
     {
-        $this->sessionRepository = $sessionRepository;
+        $this->bookingRepository = $bookingRepository;
         $this->manager = $manager;
         $this->user = $security->getUser();
-        $this->request = $request;
     }
 
     /**
@@ -55,9 +48,9 @@ class UserService
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function removeUserSession($id)
+    public function removeUserBooking($id)
     {
-        $this->user->removeSession($this->sessionRepository->find($id));
+        $this->user->removeBooking($this->bookingRepository->find($id));
         $this->manager->flush();
         return true;
     }

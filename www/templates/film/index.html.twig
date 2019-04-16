@@ -4,7 +4,7 @@
 
 {% block body %}
             <div class="col-md-12 text-right mb-5">
-                <form action="{{ path('films') }}" method="get">
+                <form action="{{ path('film_index') }}" method="get">
                     <label for="site-search">Recherche un film:</label>
                     <input type="search" id="search" name="film_name"
                            aria-label="Search through site content">
@@ -21,7 +21,7 @@
                             Durée: {{ film.duration }} min</h6>
                         <p class="card-text">{{ film.description }}</p>
                         <p class="text-center">
-                            <a href="{{ path('film_description', {'id': film.id}) }}" class="btn btn-primary">
+                            <a href="{{ path('film_show', {'id': film.id}) }}" class="btn btn-primary">
                                 Réserver une séance
                             </a>
                         </p>

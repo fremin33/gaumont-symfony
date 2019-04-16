@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Film;
 use App\Repository\FilmRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -32,7 +33,7 @@ class FilmService
     }
 
     /**
-     * @return \App\Entity\Film[]|mixed
+     * @return Film[]|mixed
      */
     public function getFilm()
     {

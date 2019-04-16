@@ -24,6 +24,7 @@ class FilmRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param $word
      * @return mixed
      */
     public function searchFilmByWord($word)

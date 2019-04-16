@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\Session;
+use App\Entity\Booking;
 use App\Entity\User;
 use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManager;
@@ -13,10 +13,10 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
- * Class SessionService
+ * Class BookingService
  * @package App\Service
  */
-class SessionService
+class BookingService
 {
     /**
      * @var RequestStack
@@ -52,15 +52,6 @@ class SessionService
 
     /**
      * @param $id
-     * @return Session|null
-     */
-    public function getSession($id)
-    {
-        return $this->sessionRepository->find($id);
-    }
-
-    /**
-     * @param $id
      * @return bool
      * @throws ORMException
      * @throws OptimisticLockException
@@ -69,16 +60,24 @@ class SessionService
     {
         $capacity = $this->sessionRepository->find($id)->getCapacity();
         $nbPlaceReserved = $this->request->getCurrentRequest()->get('nb_place_reserved');
-
-        if (($capacity - $nbPlaceReserved) >= 0) {
+        if ($this->capacityIsNotExceed($capacity, $nbPlaceReserved)) {
             $session = $this->sessionRepository->find($id);
+            $booking = new Booking($this->user, $session, $nbPlaceReserved);
             $session->setCapacity($session->getCapacity() - $nbPlaceReserved);
-            $this->user->addSession($session);
-            $this->manager->persist($this->user);
+            $this->manager->persist($booking);
             $this->manager->flush();
-            $this->sessionRepository->updateNbPlaceReserved($nbPlaceReserved, $this->user->getId(), $session->getId());
             return true;
         }
         return false;
+    }
+
+    /**
+     * @param $capacity
+     * @param $nbPlaceReserved
+     * @return bool
+     */
+    private function capacityIsNotExceed($capacity, $nbPlaceReserved)
+    {
+        return ($capacity - $nbPlaceReserved) >= 0 ? true : false;
     }
 }
