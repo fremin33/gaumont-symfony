@@ -12,7 +12,9 @@
     {% endblock %}
 </head>
 <body>
-{{ app.session.set('referer',app.request.headers.get('referer')) }}
+{% if app.request.get('_route') != 'app_login' %}
+    {{ app.session.set('referer', app.request.headers.get('referer')) }}
+{% endif %}
 <div class="container m-t-md">
     <div class="row">
         <div class="col-md-4 mt-5 mb-5">
