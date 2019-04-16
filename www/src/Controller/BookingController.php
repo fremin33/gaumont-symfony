@@ -65,13 +65,13 @@ class BookingController extends AbstractController
     /**
      * @Route(path="/mon-espace/booking/{id}/remove", name="booking_remove")
      * @param $id
-     * @param Session $session
+     * @param SfSession $session
      * @param UserService $userService
      * @return Response
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function removeBooking($id, Session $session, UserService $userService)
+    public function removeBooking($id, SfSession $session, UserService $userService)
     {
         $session->getFlashBag()->clear();
         if ($userService->removeUserBooking($id)) {
