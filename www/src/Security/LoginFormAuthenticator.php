@@ -88,7 +88,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
             return new RedirectResponse($request->getSession()->get('referer'));
         }
-        return new RedirectResponse($this->urlGenerator->generate('films'));
+        return new RedirectResponse($this->urlGenerator->generate('film_index'));
 
     }
 
