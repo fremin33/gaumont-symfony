@@ -34,6 +34,7 @@ class BookingController extends AbstractController
     /**
      * @Route("/film/{idFilm}/session/{idSession}/booking/validate", name="booking_validate")
      * @param $idSession
+     * @param $idFilm
      * @param SfSession $session
      * @param BookingService $bookingService
      * @param Request $request
@@ -41,7 +42,7 @@ class BookingController extends AbstractController
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function validateBooking($idSession, SfSession $session, BookingService $bookingService, Request $request)
+    public function validateBooking($idSession, $idFilm, SfSession $session, BookingService $bookingService, Request $request)
     {
         $session->getFlashBag()->clear();
         if ($request->isMethod('POST')) {
@@ -49,13 +50,14 @@ class BookingController extends AbstractController
                 $session->getFlashBag()->add('sucess', 'Votre réservation a été validé avec succès');
             } else {
                 $session->getFlashBag()->add('error', 'Le nombre de place disponible est dépassé');
-                return new RedirectResponse($this->generateUrl('show_session', [
+                return new RedirectResponse($this->generateUrl('session_show', [
                     'id' => $idSession,
+                    'idFilm' => $idFilm
                 ]));
             }
         } else {
             $session->getFlashBag()->add('sucess', 'Réservation annulée avec succès');
-            return $this->redirectToRoute('show_session', ['id' => $idSession]);
+            return $this->redirectToRoute('session_show', ['id' => $idSession, 'idFilm' => $idFilm]);
         }
 
         return new RedirectResponse($this->generateUrl('user_espace'));
