@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\Film;
 use App\Repository\FilmRepository;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Class FilmService
@@ -16,20 +15,14 @@ class FilmService
      * @var FilmRepository
      */
     private $filmRepository;
-    /**
-     * @var RequestStack
-     */
-    private $request;
 
     /**
      * FilmService constructor.
      * @param FilmRepository $filmRepository
-     * @param RequestStack $request
      */
-    public function __construct(FilmRepository $filmRepository, RequestStack $request)
+    public function __construct(FilmRepository $filmRepository)
     {
         $this->filmRepository = $filmRepository;
-        $this->request = $request;
     }
 
     /**
