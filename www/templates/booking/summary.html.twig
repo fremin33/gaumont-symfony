@@ -3,6 +3,11 @@
 {% block title %}Summary Booking!{% endblock %}
 
 {% block body %}
+    <style>
+        input {
+            -webkit-appearance: none;
+        }
+    </style>
     <div class="col-md-12">
         <h1>Récapitulatif de votre commande</h1>
         <form action="{{ path('booking_validate', {idSession: session.id, idFilm: session.film.id}) }}" method="POST">
@@ -28,8 +33,10 @@
                     Places réservées:
                 </div>
                 <div class="col-md-6">
-                    <input type="text" name="nb_place_reserved" value="{{ nbPlaceReserved }}" class="summary_input">
+                    <span class="summary_input">{{ nbPlaceReserved }}</span>
                 </div>
+                <input type="text" name="nb_place_reserved" value="{{ nbPlaceReserved }}" class="summary_input" readonly
+                       hidden>
             </div>
             <div class="row">
                 <div class="col-md-2">
