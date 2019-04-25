@@ -38,6 +38,14 @@
                 </a>
             {% endif %}
         </div>
+        <div class="col-md-12 text-right mb-5">
+            <form action="{{ path('film_index') }}" method="get">
+                <label for="site-search">Recherche un film:</label>
+                <input type="search" id="search" name="film_name"
+                       aria-label="Search through site content">
+                <button>Search</button>
+            </form>
+        </div>
         <div class="col-md-12">
             {% for flashMessage in app.session.flashbag.get('sucess') %}
                 <div class="alert alert-success" role="alert">
