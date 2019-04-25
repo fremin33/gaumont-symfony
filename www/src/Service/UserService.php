@@ -50,7 +50,10 @@ class UserService
      */
     public function removeUserBooking($id)
     {
-        $this->user->removeBooking($this->bookingRepository->find($id));
+        $booking = $this->bookingRepository->find($id);
+        $this->user->removeBooking($booking);
+        $capacity = $booking->getSession()->getCapacity() + $booking->getNbplaceReserved();
+        $booking->getSession()->setCapacity($capacity);
         $this->manager->flush();
         return true;
     }
