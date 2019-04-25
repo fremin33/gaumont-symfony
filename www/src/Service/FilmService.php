@@ -39,12 +39,12 @@ class FilmService
     }
 
     /**
-     * @param $id
+     * @param $sessions
      * @return array
      */
-    public function getFilmSessionFormat($id) {
+    public function formatSessionsForDisplay($sessions) {
         $sessionFormat = [];
-        foreach ($this->filmRepository->find($id)->getSessions() as $index => $session) {
+        foreach ($sessions as $index => $session) {
             $dateSession = $session->getDate();
             $sessionFormat[$dateSession->format('d/m/y')][] = $session;
         }

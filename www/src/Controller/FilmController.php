@@ -30,15 +30,15 @@ class FilmController extends AbstractController
 
     /**
      * @Route("/film/{id}", name="film_show")
-     * @param $id
+     * @param $film
      * @param FilmService $filmService
      * @return Response
      */
-    public function show($id, FilmService $filmService)
+    public function show(Film $film, FilmService $filmService)
     {
         return $this->render('film/show.html.twig', [
-            'film' => $this->getDoctrine()->getRepository(Film::class)->find($id),
-            'sessionsFormat' => $filmService->getFilmSessionFormat($id),
+            'film' => $film,
+            'sessionsFormat' => $filmService->formatSessionsForDisplay($film->getSessions()),
         ]);
     }
 }
