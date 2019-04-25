@@ -1,17 +1,31 @@
-version: '3'
+version: "3"
 services:
-    mysql:
-      image: mysql:5.7
-      environment:
-        MYSQL_ROOT_PASSWORD: "root"
-      ports:
-        - 3306:3306
-    phpmyadmin:
-      image: phpmyadmin/phpmyadmin
-      environment:
-        PMA_HOST: mysql
-        PMA_PORT: 3306
-      ports:
-        - 8080:80
-      depends_on:
-        - mysql
+  nginx:
+    container_name: ${APPLICATION_NAME}_nginx
+    image: ${APPLICATION_NAME}_nginx
+    build:
+      context: docker/nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ${APPLICATION_PATH}:/var/www
+  php-fpm:
+    container_name: ${APPLICATION_NAME}_php
+    build:
+      context: docker/php-fpm
+      dockerfile: "Dockerfile-${PHP_VERSION}"
+    expose:
+      - "9000"
+    volumes:
+      - ${APPLICATION_PATH}:/var/www
+  db:
+    container_name: ${APPLICATION_NAME}_db
+    image: mysql:5.7
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ${APPLICATION_NAME}
+      MYSQL_USER: ${APPLICATION_NAME}
+      MYSQL_PASSWORD: root
