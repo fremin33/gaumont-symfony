@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Booking;
 use App\Entity\User;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\EntityManager;
@@ -43,14 +44,13 @@ class UserService
     }
 
     /**
-     * @param $id
+     * @param Booking $booking
      * @return bool
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function removeUserBooking($id)
+    public function removeUserBooking($booking)
     {
-        $booking = $this->bookingRepository->find($id);
         $this->user->removeBooking($booking);
         $capacity = $booking->getSession()->getCapacity() + $booking->getNbplaceReserved();
         $booking->getSession()->setCapacity($capacity);

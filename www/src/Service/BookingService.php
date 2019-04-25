@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Booking;
+use App\Entity\Session;
 use App\Entity\User;
 use App\Repository\SessionRepository;
 use Doctrine\ORM\EntityManager;
@@ -51,17 +52,15 @@ class BookingService
     }
 
     /**
-     * @param $id
+     * @param Session $session
+     * @param $nbPlaceReserved
      * @return bool
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function validateBooking($id)
+    public function validateBooking($session, $nbPlaceReserved)
     {
-        $capacity = $this->sessionRepository->find($id)->getCapacity();
-        $nbPlaceReserved = $this->request->getCurrentRequest()->get('nb_place_reserved');
-        if ($this->capacityIsNotExceed($capacity, $nbPlaceReserved)) {
-            $session = $this->sessionRepository->find($id);
+        if ($this->capacityIsNotExceed($session->getCapacity(), $nbPlaceReserved)) {
             $booking = new Booking($this->user, $session, $nbPlaceReserved);
             $session->setCapacity($session->getCapacity() - $nbPlaceReserved);
             $this->manager->persist($booking);

@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Booking;
 use App\Service\BookingService;
 use App\Service\UserService;
 use App\Entity\Session;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,45 +21,47 @@ class BookingController extends AbstractController
 
     /**
      * @Route("/film/{idFilm}/session/{idSession}/booking", name="booking_summary")
-     * @param $idSession
+     * @Entity("session", expr="repository.find(idSession)")
+     * @param $session
      * @param Request $request
      * @return Response
      */
-    public function summaryBooking($idSession, Request $request)
+    public function summaryBooking(Session $session, Request $request)
     {
         return $this->render('booking/summary.html.twig', [
             'nbPlaceReserved' => $request->get('nb_place_reserved'),
-            'session' => $this->getDoctrine()->getRepository(Session::class)->find($idSession),
+            'session' => $session,
         ]);
     }
 
     /**
      * @Route("/film/{idFilm}/session/{idSession}/booking/validate", name="booking_validate")
-     * @param $idSession
+     * @Entity("session", expr="repository.find(idSession)")
+     * @param $session
      * @param $idFilm
-     * @param SfSession $session
+     * @param SfSession $SfSession
      * @param BookingService $bookingService
      * @param Request $request
      * @return RedirectResponse
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function validateBooking($idSession, $idFilm, SfSession $session, BookingService $bookingService, Request $request)
+    public function validateBooking(Session $session, $idFilm, SfSession $SfSession, BookingService $bookingService, Request $request)
     {
-        $session->getFlashBag()->clear();
+        $SfSession->getFlashBag()->clear();
         if ($request->isMethod('POST')) {
-            if ($bookingService->validateBooking($idSession)) {
-                $session->getFlashBag()->add('sucess', 'Votre réservation a été validé avec succès');
+            if ($bookingService->validateBooking($session, $request->get('nb_place_reserved'))) {
+                $SfSession->getFlashBag()->add('sucess', 'Votre réservation a été validé avec succès');
             } else {
-                $session->getFlashBag()->add('error', 'Le nombre de place disponible est dépassé');
+                $SfSession->getFlashBag()->add('error', 'Le nombre de place disponible est dépassé');
                 return new RedirectResponse($this->generateUrl('session_show', [
-                    'id' => $idSession,
+                    'id' => $session,
                     'idFilm' => $idFilm
                 ]));
             }
         } else {
-            $session->getFlashBag()->add('sucess', 'Réservation annulée avec succès');
-            return $this->redirectToRoute('session_show', ['id' => $idSession, 'idFilm' => $idFilm]);
+            $SfSession->getFlashBag()->add('sucess', 'Réservation annulée avec succès');
+            return $this->redirectToRoute('session_show', ['id' => $session->getId(), 'idFilm' => $idFilm]);
         }
 
         return new RedirectResponse($this->generateUrl('user_espace'));
@@ -66,17 +70,17 @@ class BookingController extends AbstractController
 
     /**
      * @Route(path="/mon-espace/booking/{id}/remove", name="booking_remove")
-     * @param $id
+     * @param Booking $booking
      * @param SfSession $session
      * @param UserService $userService
      * @return Response
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function removeBooking($id, SfSession $session, UserService $userService)
+    public function removeBooking(Booking $booking, SfSession $session, UserService $userService)
     {
         $session->getFlashBag()->clear();
-        if ($userService->removeUserBooking($id)) {
+        if ($userService->removeUserBooking($booking)) {
             $session->getFlashBag()->add('sucess', 'Votre réservation a été supprimée avec succès');
         } else {
             $session->getFlashBag()->add('error', 'Une erreur est survenue');
