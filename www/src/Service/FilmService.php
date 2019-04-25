@@ -33,12 +33,13 @@ class FilmService
     }
 
     /**
+     * @param $filmToSearch
      * @return Film[]|mixed
      */
-    public function getFilm()
+    public function getFilm($filmToSearch)
     {
-        if ($this->request->getCurrentRequest()->get('film_name')) {
-            return $this->filmRepository->searchFilmByWord($this->request->getCurrentRequest()->get('film_name'));
+        if ($filmToSearch) {
+            return $this->filmRepository->searchFilmByWord($filmToSearch);
         } else {
             return $this->filmRepository->findAll();
         }
