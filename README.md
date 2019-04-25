@@ -14,8 +14,9 @@ Installation des dépendances du projet
     yarn install
 Compilation des assets
 
-    yarn encore dev
-
+   yarn encore dev
+   bin/console assets:install
+   
  Création de la base de donnée
 
     bin/console d:d:c
