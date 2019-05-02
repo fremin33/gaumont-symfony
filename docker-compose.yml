@@ -29,3 +29,15 @@ services:
       MYSQL_DATABASE: ${APPLICATION_NAME}
       MYSQL_USER: ${APPLICATION_NAME}
       MYSQL_PASSWORD: root
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - db
+    environment:
+      PMA_ARBITRARY: 1
+      MYSQL_USER: ${APPLICATION_NAME}
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "81:80"
+
