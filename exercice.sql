@@ -57,7 +57,7 @@ FROM session s
 WHERE s.film_id IN (
     SELECT f.id
     FROM film f
-    WHERE price = 1
+    WHERE price = 9
   );
 
 #Right Join ( 2 points )
